@@ -64,7 +64,7 @@ public class SpelParserConfiguration {
 
 	/**
 	 * Create a new {@code SpelParserConfiguration} instance.
-	 * @param compilerMode the compiler mode for the parser
+	 * @param compilerMode the compiler mode for the parser 表达式语言可能是存在性能问题，
 	 * @param compilerClassLoader the ClassLoader to use as the basis for expression compilation
 	 */
 	public SpelParserConfiguration(@Nullable SpelCompilerMode compilerMode, @Nullable ClassLoader compilerClassLoader) {

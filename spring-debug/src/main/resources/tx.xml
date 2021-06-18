@@ -3,8 +3,18 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="customEditors">
+			<map>
+				<entry key="com.wy.entity.Address" value="com.wy.day01.AddressEditor">
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<bean class="com.wy.entity.A">
 		<property name="id" value="wuyong"></property>
+		<property name="address" value="安徽_六安_金寨"></property>
 	</bean>
 	<bean class="com.wy.entity.B"></bean>
 
