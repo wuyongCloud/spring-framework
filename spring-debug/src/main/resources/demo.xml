@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:weimob="http://www.weimob.com/schema/weimob-beans"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.weimob.com/schema/weimob-beans
+	   http://www.weimob.com/schema/weimob-beans.xsd">
+	<weimob:weimob id="weimobBean" name="微盟" address="宝山区、微盟大厦" phone="1010101010"></weimob:weimob>
+</beans>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="http://www.weimob.com/schema/weimob-beans"
+		xmlns:tns="http://www.weimob.com/schema/weimob-beans"
+		elementFormDefault="qualified">
+	<element name="weimob">
+		<complexType>
+			<attribute name ="id" type = "string"/>
+			<attribute name ="name" type = "string"/>
+			<attribute name ="phone" type = "string"/>
+			<attribute name ="address" type = "string"/>
+		</complexType>
+	</element>
+</schema>
