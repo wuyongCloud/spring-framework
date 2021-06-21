@@ -1,5 +1,6 @@
-package com.wy.day01;
+package com.wy;
 
+import com.wy.day02.DynamicBean;
 import com.wy.entity.A;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,5 +17,7 @@ public class TxTest {
 		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("tx.xml");
 		A bean = classPathXmlApplicationContext.getBean(A.class);
 		System.out.println(bean.getId());
+		DynamicBean d = classPathXmlApplicationContext.getBean(DynamicBean.class);
+		System.out.println(d);
 	}
 }
