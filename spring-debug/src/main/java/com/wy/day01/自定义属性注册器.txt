@@ -1,0 +1,5 @@
+1：自定义实现PropertyEditorSupport接口的编辑器
+2：让Spring能够识别到此编辑器，自定义实现一个属性编辑器的注册器，实现了PropertyEdtiorRegistrar接口
+3：让spring能识别对应的注册器   CustomEditorConfigurer
+
+CustomEditorConfigurer 是怎么找到的？ 它是一个 BeanFactoryPostProcessor 后置处理器里把自定义的编辑器注册进去

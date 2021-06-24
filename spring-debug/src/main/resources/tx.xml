@@ -10,6 +10,21 @@
 	<bean class="com.wy.entity.B"></bean>
 
 	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+<!--		<property name="customEditors">-->
+<!--			<map>-->
+<!--				<entry key="com.wy.entity.Address" value="com.wy.day01.AddressEditor">-->
+<!--				</entry>-->
+<!--			</map>-->
+<!--		</property>-->
+<!--或者-->
+		<property name="propertyEditorRegistrars">
+			<list>
+				<bean class="com.wy.day01.AdressPropertyEditorRegistrar"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="customEditors">
 			<map>
 				<entry key="com.wy.entity.Address" value="com.wy.day01.AddressEditor">
