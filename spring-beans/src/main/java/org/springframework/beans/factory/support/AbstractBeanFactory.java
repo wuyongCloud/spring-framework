@@ -1281,6 +1281,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	protected void initBeanWrapper(BeanWrapper bw) {
 		bw.setConversionService(getConversionService());
+		/**
+		 * 自定义属性编辑器，在BFPP 设置，在populateBean完成属性的设置
+		 */
 		registerCustomEditors(bw);
 	}
 

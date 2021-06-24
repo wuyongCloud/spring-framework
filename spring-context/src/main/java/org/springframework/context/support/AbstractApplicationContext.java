@@ -702,6 +702,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Configure the bean factory with context callbacks.
 		//添加beanPostProcessor,ApplicationContextAwareProcessor此类用来完成某些Aware对象的注入
+		/**
+		 * 一些常用的aware 是通过BPP 来实现的
+		 *  实现自BeanPostProcessor
+		 *  内部值处理特定的aware 接口
+		 *  如何自定义？
+		 *  自定义一个AwareProcesser 实现BPP,在此方法中PostProcessBeforeInitialization 可以设置其他属性+
+		 *  +
+		 */
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 		/**
 		 * 设置要忽略自动装配的接口，原因:这些接口的实现是由容器通过set方法进行注入的，
