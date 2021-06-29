@@ -742,6 +742,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		 * 类加载器织入，而类加载期织入则指通过特殊的类加载器，在类字节码加载到JVM时，织入切面，
 		 * 运行期织入，运行期织入则是采用cglib和jdk进行切面的织入
 		 * aspectj提供了两种织入方式，第一种是通过特殊编译器，在编译器，将aspectj语言编写的切面类织入到java类中，第二种是类加载期织入，就是下面的load time weaving，
+		 * 注意一个类 AspectJWeavingEnabler
 		 */
 		// Detect a LoadTimeWeaver and prepare for weaving, if found.
 		if (!NativeDetector.inNativeImage() && beanFactory.containsBean(LOAD_TIME_WEAVER_BEAN_NAME)) {
@@ -752,6 +753,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Register default environment beans.
 		//注册默认的系统环境bean到一级缓存中
+		//当前系统环境值 property env
 		if (!beanFactory.containsLocalBean(ENVIRONMENT_BEAN_NAME)) {
 			beanFactory.registerSingleton(ENVIRONMENT_BEAN_NAME, getEnvironment());
 		}
