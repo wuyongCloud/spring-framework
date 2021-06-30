@@ -13,7 +13,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
  * @Description
  * @date 2021/6/18 18:20
  */
-public class MySelfBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
+public class MySelfBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor{
 
 	/**
 	 * 可以对BeanDefination 进行修改

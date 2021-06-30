@@ -74,7 +74,7 @@ final class PostProcessorRegistrationDelegate {
 
 		/**
 		 * 无论何时优先执行 BeanDefinitionRegistryPostProcessors
-		 * 将执行过的BFPP 放入set集合
+		 * 将执行过的BFPP 放入processedBeans集合
 		 */
 		// Invoke BeanDefinitionRegistryPostProcessors first, if any.
 		Set<String> processedBeans = new HashSet<>();
@@ -87,6 +87,10 @@ final class PostProcessorRegistrationDelegate {
 			List<BeanFactoryPostProcessor> regularPostProcessors = new ArrayList<>();
 			List<BeanDefinitionRegistryPostProcessor> registryProcessors = new ArrayList<>();
 
+			/**
+			 * 这里有两类，遍历优先查找BeanDefinitionRegistryPostProcessor，并执行，其他类似的BFPP添加到
+			 * regularPostProcessors 常规集合中后续处理
+			 */
 			for (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
 				if (postProcessor instanceof BeanDefinitionRegistryPostProcessor) {
 					BeanDefinitionRegistryPostProcessor registryProcessor =
