@@ -564,11 +564,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				//beanFactory的准备工作，对各种属性进行填充
 				// Allows post-processing of the bean factory in context subclasses.
 				// 子类覆盖方法做额外的处理，此处我们自己一般不做任何扩展工作，但是可以查看web中的代码，是有具体实现的
+				// 参数是BeanFactory,可以对存在的任何东西进行修改或扩展，springmvc spring boot 都有相应的扩展实现
 				postProcessBeanFactory(beanFactory);
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
-				//调用各种beanFactory处理器
+				//调用各种beanFactory处理器 BFPP,
+				/**
+				 * 有一个我们常见的场景，就是配置文件或者注解上使用的${} 这种就是在这里完成替换的
+				 */
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
@@ -788,6 +792,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		 * 获取到当前应用程序上下文的beanFactoryPostProcessors变量的值，并且实例化调用执行所有已经注册的beanFactoryPostProcessor
 		 * 默认情况下，通过getBeanFactoryPostProcessors()来获取已经注册的BFPP
 		 * 扩展
+		 * 场景：@Configuration 这个注解；
+		 * 两种会针对BeanDefinition 或者 beanFactory进行处理
 		 */
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());
 
