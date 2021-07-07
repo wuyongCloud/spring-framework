@@ -94,13 +94,14 @@ import org.springframework.util.ClassUtils;
  * @since 3.0
  * 实现BeanDefinitionRegistryPostProcessor 优先处理 postProcessBeanDefinitionRegistry
  * spring 在启动的时候，会自动注入内置的 internalConfigurationAnnotationProcessor 它对应的处理类就是当前类
+ *
  */
 public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPostProcessor,
 		PriorityOrdered, ResourceLoaderAware, ApplicationStartupAware, BeanClassLoaderAware, EnvironmentAware {
 
 	/**
 	 * A {@code BeanNameGenerator} using fully qualified class names as default bean names.
-	 * <p>This default for configuration-level import purposes may be overridden through
+	 * <p>This default for configuration-level import purposes may be overridden throughO
 	 * {@link #setBeanNameGenerator}. Note that the default for component scanning purposes
 	 * is a plain {@link AnnotationBeanNameGenerator#INSTANCE}, unless overridden through
 	 * {@link #setBeanNameGenerator} with a unified user-level bean name generator.
