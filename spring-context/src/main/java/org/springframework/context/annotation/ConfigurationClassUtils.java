@@ -86,11 +86,16 @@ abstract class ConfigurationClassUtils {
 			BeanDefinition beanDef, MetadataReaderFactory metadataReaderFactory) {
 
 		String className = beanDef.getBeanClassName();
+		// 如果className为空，或者Bean定义信息中的FactoryMethodName 不为空，直接返回
 		if (className == null || beanDef.getFactoryMethodName() != null) {
 			return false;
 		}
 
 		AnnotationMetadata metadata;
+		/**
+		 * 分类
+		 * 三种类型，最终的目的都是获取AnnotationMetadata 注解元数据信息
+		 */
 		if (beanDef instanceof AnnotatedBeanDefinition &&
 				className.equals(((AnnotatedBeanDefinition) beanDef).getMetadata().getClassName())) {
 			// Can reuse the pre-parsed metadata from the given BeanDefinition...
@@ -122,10 +127,18 @@ abstract class ConfigurationClassUtils {
 			}
 		}
 
+		/**
+		 * 从mate中获取Configuration 注解标注的字典值 （） 括号内的值
+		 */
 		Map<String, Object> config = metadata.getAnnotationAttributes(Configuration.class.getName());
+		// 被 Configuration 注解修饰，且proxyBeanMethods 为false(代理模式)，则将bean定义信息设置为null
 		if (config != null && !Boolean.FALSE.equals(config.get("proxyBeanMethods"))) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
+		/**
+		 * 如果被Configuration修饰，且被Component、ComponentScan、Import、ImportResource、或者Bean注解修饰，则将Bean定义信息标记为lite
+
+		 */
 		else if (config != null || isConfigurationCandidate(metadata)) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
 		}
@@ -136,6 +149,7 @@ abstract class ConfigurationClassUtils {
 		// It's a full or lite configuration candidate... Let's determine the order value, if any.
 		Integer order = getOrder(metadata);
 		if (order != null) {
+			//设置order值
 			beanDef.setAttribute(ORDER_ATTRIBUTE, order);
 		}
 
