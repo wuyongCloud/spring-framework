@@ -165,6 +165,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Override
 	@Nullable
 	public Object getSingleton(String beanName) {
+		// 获取beanName 的单例对象，并允许创建早期引用
 		return getSingleton(beanName, true);
 	}
 
@@ -180,15 +181,22 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// Quick check for existing instance without full singleton lock
 		Object singletonObject = this.singletonObjects.get(beanName);
+		// 如果单例对象缓存中没有，且该对象正在创建中
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+			// 尝试从early 单例缓存对象中获取，这里的对象都是提前暴露出来了，通过ObjectFactory 创建出来的，还未进行属性的填充等操作
 			singletonObject = this.earlySingletonObjects.get(beanName);
+			// 如果早期单例缓存对象中没有，且允许提前保留引用
 			if (singletonObject == null && allowEarlyReference) {
+				//如果为null 锁定全局进行处理
 				synchronized (this.singletonObjects) {
+					// 这个地方类似双重检查机制，都阻塞在锁外面，再执行一次获取流程，可能阻塞的时候，已经完成对象的创建了
 					// Consistent creation of early reference within full singleton lock
 					singletonObject = this.singletonObjects.get(beanName);
 					if (singletonObject == null) {
 						singletonObject = this.earlySingletonObjects.get(beanName);
 						if (singletonObject == null) {
+							// 一些方法需要提前初始化的时候，会调用addSingletonFactory,将对应的初始化策略放在singletonFactories 中
+							//看是否有beanName对应的创建工厂，如果有，则执行创建工作
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 							if (singletonFactory != null) {
 								singletonObject = singletonFactory.getObject();

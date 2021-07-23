@@ -249,11 +249,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			String name, @Nullable Class<T> requiredType, @Nullable Object[] args, boolean typeCheckOnly)
 			throws BeansException {
 
+		/**
+		 * 为什么不直接使用beanName,
+		 * 1:当bean实现FactoryBean 接口后，就会变成&beanName,同时如果存在别名，也需要把别名进行转换
+		 */
 		String beanName = transformedBeanName(name);
 		Object beanInstance;
 
+		// 提前检查单例缓存中，是否有已手动注册的单例对象，跟循环依赖有关
 		// Eagerly check singleton cache for manually registered singletons.
 		Object sharedInstance = getSingleton(beanName);
+		// bean 实例存在，且无需额外的实例化参数
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {
 				if (isSingletonCurrentlyInCreation(beanName)) {
@@ -264,26 +270,44 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					logger.trace("Returning cached instance of singleton bean '" + beanName + "'");
 				}
 			}
+			/**
+			 * 注意体会此处，这个地方也是获取对象实例，有什么区别，
+			 * 有一道面试题，BeanFactory 和FactoryBean 有什么区别？
+			 *  当实现了FactoryBean 接口时，获取具体的对象就需要用此方法来获取
+			 */
 			beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, null);
 		}
 
 		else {
 			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
+			// 判断是否存在循环引用，如果时原型模式，就直接抛出异常
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
 
 			// Check if bean definition exists in this factory.
+			/**
+			 *  判断是否有BeanDefination 不存在就检查父工厂是否有
+			 * 如果beanDefinitionMap 不包含当前Bean定义信息，就尝试从父容器中去获取
+			 */
 			BeanFactory parentBeanFactory = getParentBeanFactory();
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
+				// 获取name对应的规范名称：【全限定类名】，如果name前面有& 则返回 &+【全限定类名】
 				String nameToLookup = originalBeanName(name);
+				// 如果父工厂是 AbstractBeanFactory的实例，
 				if (parentBeanFactory instanceof AbstractBeanFactory) {
+					// 调用父工厂的 doGetBean方法，此处是递归
 					return ((AbstractBeanFactory) parentBeanFactory).doGetBean(
 							nameToLookup, requiredType, args, typeCheckOnly);
 				}
 				else if (args != null) {
+					/**
+					 * 此处待理解
+					 * 如果创建Bean实例还需要别的参数，
+					 * 使用父工厂获取该bean对象,通bean全类名和创建bean实例时要使用的参数
+					 */
 					// Delegation to parent with explicit args.
 					return (T) parentBeanFactory.getBean(nameToLookup, args);
 				}
