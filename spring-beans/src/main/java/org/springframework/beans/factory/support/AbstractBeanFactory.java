@@ -312,24 +312,29 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					return (T) parentBeanFactory.getBean(nameToLookup, args);
 				}
 				else if (requiredType != null) {
+					// 没有创建Bean 所需的参数，就使用标准的getBean方法获取bean
 					// No args -> delegate to standard getBean method.
 					return parentBeanFactory.getBean(nameToLookup, requiredType);
 				}
 				else {
+					// 通过全限定类名 使用父工厂获取bean
 					return (T) parentBeanFactory.getBean(nameToLookup);
 				}
 			}
 
+			//如果不是做类型检查，在集合中标记下beanName已创建
 			if (!typeCheckOnly) {
 				markBeanAsCreated(beanName);
 			}
 
+			// 5.3 之后新增的度量值，
 			StartupStep beanCreation = this.applicationStartup.start("spring.beans.instantiate")
 					.tag("beanName", name);
 			try {
 				if (requiredType != null) {
 					beanCreation.tag("beanType", requiredType::toString);
 				}
+				// 从xml中读取加载的BeanDefination 封装的是GenericBeanDefinition, 在这里做类型装欢，如果是子类Bean的话，会合并父类的相关属性
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				checkMergedBeanDefinition(mbd, beanName, args);
 
