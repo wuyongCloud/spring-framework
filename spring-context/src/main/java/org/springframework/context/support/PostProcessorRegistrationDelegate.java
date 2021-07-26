@@ -248,32 +248,30 @@ final class PostProcessorRegistrationDelegate {
 		// list of all declined PRs involving changes to PostProcessorRegistrationDelegate
 		// to ensure that your proposal does not result in a breaking change:
 		// https://github.com/spring-projects/spring-framework/issues?q=PostProcessorRegistrationDelegate+is%3Aclosed+label%3A%22status%3A+declined%22
-
-		//找到BeanPostProcessor 接口实现类
+		//找到所有的 BeanPostProcessor
 		String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false);
 
 		// Register BeanPostProcessorChecker that logs an info message when
 		// a bean is created during BeanPostProcessor instantiation, i.e. when
 		// a bean is not eligible for getting processed by all BeanPostProcessors.
-		// 为什么+1 方法后面添加了一个 BeanPostProcessorChecker类
 		int beanProcessorTargetCount = beanFactory.getBeanPostProcessorCount() + 1 + postProcessorNames.length;
-		// 不做处理，主要是记录日志
 		beanFactory.addBeanPostProcessor(new BeanPostProcessorChecker(beanFactory, beanProcessorTargetCount));
 
-		/**
-		 * BeanPostProcessor 分类，后续处理
-		 */
+		// 对这些BeanPostProcessor进行分类，
 		// Separate between BeanPostProcessors that implement PriorityOrdered,
 		// Ordered, and the rest.
+		// 实现了PriorityOrdered 接口的
 		List<BeanPostProcessor> priorityOrderedPostProcessors = new ArrayList<>();
+		// 内部的 internalPostProcessors
 		List<BeanPostProcessor> internalPostProcessors = new ArrayList<>();
+		// 实现了 Ordered 接口的
 		List<String> orderedPostProcessorNames = new ArrayList<>();
+		// 其他无需排序的 BeanPostProcessor
 		List<String> nonOrderedPostProcessorNames = new ArrayList<>();
 		for (String ppName : postProcessorNames) {
 			if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
 				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 				priorityOrderedPostProcessors.add(pp);
-				// 有一些子接口，比如Bean销毁
 				if (pp instanceof MergedBeanDefinitionPostProcessor) {
 					internalPostProcessors.add(pp);
 				}
@@ -315,13 +313,10 @@ final class PostProcessorRegistrationDelegate {
 
 		// Finally, re-register all internal BeanPostProcessors.
 		sortPostProcessors(internalPostProcessors, beanFactory);
-		/**
-		 * 添加到集合，在Bean实例化后，会调用get 进行处理
-		 */
 		registerBeanPostProcessors(beanFactory, internalPostProcessors);
 
 		/**
-		 * 重新注册，就是为了放到最后
+		 * 这就是上面的集合为什么+1 的缘故
 		 */
 		// Re-register post-processor for detecting inner beans as ApplicationListeners,
 		// moving it to the end of the processor chain (for picking up proxies etc).
