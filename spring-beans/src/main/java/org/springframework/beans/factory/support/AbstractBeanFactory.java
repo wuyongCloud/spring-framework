@@ -273,7 +273,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			/**
 			 * 注意体会此处，这个地方也是获取对象实例，有什么区别，
 			 * 有一道面试题，BeanFactory 和FactoryBean 有什么区别？
-			 *  当实现了FactoryBean 接口时，获取具体的对象就需要用此方法来获取
+			 *  当实现了FactoryBean 接口时，获取具体的对象就需要用此方法来获取,
+			 *  获取的对象，不存在 常见的三级缓存中，通过getBean 时，会转化为get对应的FactoryBean 到此处时，会从factoryBeanObjectCache 缓存中获取
+			 *  没有的话，调用factoryBean 的getBean 实现，并将创建好的Bean 放入 factoryBeanObjectCache 中
 			 */
 			beanInstance = getObjectForBeanInstance(sharedInstance, name, beanName, null);
 		}
