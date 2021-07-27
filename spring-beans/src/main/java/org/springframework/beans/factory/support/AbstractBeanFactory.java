@@ -1868,6 +1868,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
+	 * 给定一个 beanInstance 实例和 name 以此来返回 Bean 实例或者 Bean（BeanFactory） 创建的实例
+	 * @see https://www.cnblogs.com/teach/p/14962065.html
 	 * Get the object for the given bean instance, either the bean
 	 * instance itself or its created object in case of a FactoryBean.
 	 * @param beanInstance the shared bean instance
@@ -1879,11 +1881,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	protected Object getObjectForBeanInstance(
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
 
+		// 如果不是工厂，不要让调用代码尝试取消对工厂的引用
 		// Don't let calling code try to dereference the factory if the bean isn't a factory.
+		// 如果name为FactoryBean的引用，
+		// 如果name是以‘&’开头，认为 beanInstance 是FactoryBean的实例
 		if (BeanFactoryUtils.isFactoryDereference(name)) {
 			if (beanInstance instanceof NullBean) {
 				return beanInstance;
 			}
+			// 如果beanInstance 不是FactoryBean实例，抛出异常
 			if (!(beanInstance instanceof FactoryBean)) {
 				throw new BeanIsNotAFactoryException(beanName, beanInstance.getClass());
 			}
@@ -1896,24 +1902,38 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// Now we have the bean instance, which may be a normal bean or a FactoryBean.
 		// If it's a FactoryBean, we use it to create a bean instance, unless the
 		// caller actually wants a reference to the factory.
+		/**
+		 * 这个Bean 可能是普通Bean 也可能是FactoryBean实例，
+		 * 如果是 FactoryBean 就使用他来创建一个Bean实例，除非调用者确实需要对工厂的引用
+		 * 如果beanInstance 不是FactoryBean 实例，直接返回当前实例
+		 */
 		if (!(beanInstance instanceof FactoryBean)) {
 			return beanInstance;
 		}
 
 		Object object = null;
 		if (mbd != null) {
+			// 更新mbd的是否是FactoryBean标记为true
 			mbd.isFactoryBean = true;
 		}
 		else {
+			// 从FactoryBean获得的对象缓存集中获取beanName对应的Bean对象
 			object = getCachedObjectForFactoryBean(beanName);
 		}
 		if (object == null) {
 			// Return bean instance from factory.
 			FactoryBean<?> factory = (FactoryBean<?>) beanInstance;
+			/**
+			 * 如果是单例对象，则缓存从Factory 获取的对象
+			 * 如果 mbd为null && 该BeanFactory包含beanName的BeanDefinition对象。
+			 */
 			// Caches object obtained from FactoryBean if it is a singleton.
 			if (mbd == null && containsBeanDefinition(beanName)) {
+				//获取beanName合并后的本地RootBeanDefintiond对象
 				mbd = getMergedLocalBeanDefinition(beanName);
 			}
+			// 是否是'synthetic'标记：mbd不为null && 返回此bean定义是否是"synthetic"【一般是指只有AOP相关的prointCut配置或者
+			// Advice配置才会将 synthetic设置为true】
 			boolean synthetic = (mbd != null && mbd.isSynthetic());
 			object = getObjectFromFactoryBean(factory, beanName, !synthetic);
 		}
