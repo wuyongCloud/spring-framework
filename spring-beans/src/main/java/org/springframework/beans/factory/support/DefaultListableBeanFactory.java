@@ -928,6 +928,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 					Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 					if (bean instanceof FactoryBean) {
 						FactoryBean<?> factory = (FactoryBean<?>) bean;
+						// 判断这个Bean 是否希望立即初始化 SmartFactoryBean 这个接口一般时内部使用，没细看
 						boolean isEagerInit;
 						if (System.getSecurityManager() != null && factory instanceof SmartFactoryBean) {
 							isEagerInit = AccessController.doPrivileged(
@@ -950,6 +951,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
+		// 遍历所有的beanNames 触发 SmartInitializingSingleton 的后初始化回调，Bean实例化完成之后，可以在此处做一些操作，
 		// Trigger post-initialization callback for all applicable beans...
 		for (String beanName : beanNames) {
 			Object singletonInstance = getSingleton(beanName);
