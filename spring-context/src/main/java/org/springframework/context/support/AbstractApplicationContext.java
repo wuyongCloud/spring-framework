@@ -567,6 +567,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// 参数是BeanFactory,可以对存在的任何东西进行修改或扩展，springmvc spring boot 都有相应的扩展实现
 				postProcessBeanFactory(beanFactory);
 
+				/**
+				 * 5.3 后新增的度量值，用于监控 spring启动时耗时情况，后面postProcessor 执行的时候也有类似的打点，
+				 * 这一段会经常看到
+				 */
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
 				//调用各种beanFactory处理器 BFPP,
