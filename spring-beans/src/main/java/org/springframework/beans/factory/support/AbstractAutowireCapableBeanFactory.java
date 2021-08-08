@@ -512,6 +512,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
+			// 给 BeanPostProcessor 一个机会来返回代理，用来替代真正的实例，应用实例化前的前置处理器
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
@@ -1116,6 +1117,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object bean = null;
 		if (!Boolean.FALSE.equals(mbd.beforeInstantiationResolved)) {
 			// Make sure bean class is actually resolved at this point.
+			// 判断当前mbd是否是合成的，只有在实现aop的时候，Synthetic 的值为true，并且是实现了InstantiationAwareBeanPostProcessor 接口
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 				Class<?> targetType = determineTargetType(beanName, mbd);
 				if (targetType != null) {
@@ -1174,12 +1176,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					"Bean class isn't public, and non-public access not allowed: " + beanClass.getName());
 		}
 
-		// 判断当前beanDefinition 是否包含实例供应器，此处相当于一个回调方法，利用回调方法来创建bean
+		// 判断当前beanDefinition 是否包含实例供应器，此处相当于一个回调方法，利用回调方法来创建bean,
+		/**
+		 * 此处是Bean实例化的一种方式，5中方式，这个参数包含在bean定义信息里， BFPP 可以做实现修改
+		 * 这种方式几乎没人用，还不如factorybean 接口好用
+		 */
 		Supplier<?> instanceSupplier = mbd.getInstanceSupplier();
 		if (instanceSupplier != null) {
 			return obtainFromSupplier(instanceSupplier, beanName);
 		}
 
+		// factory-method 标签的方式创建
 		if (mbd.getFactoryMethodName() != null) {
 			return instantiateUsingFactoryMethod(beanName, mbd, args);
 		}

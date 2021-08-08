@@ -397,8 +397,10 @@ class ConstructorResolver {
 		BeanWrapperImpl bw = new BeanWrapperImpl();
 		this.beanFactory.initBeanWrapper(bw);
 
+		//工厂实例
 		Object factoryBean;
 		Class<?> factoryClass;
+		// 实例工厂还是静态工厂创建
 		boolean isStatic;
 
 		String factoryBeanName = mbd.getFactoryBeanName();
