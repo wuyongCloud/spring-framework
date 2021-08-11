@@ -500,6 +500,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			mbdToUse.setBeanClass(resolvedClass);
 		}
 
+		/**
+		 * eg：单例对象引用原型对象，单例对象会被缓存，那么原型对象也就不会变化，这个的地方就设置下标识位，在对象实例化的时候，会根据这个标识位
+		 * 获取实例化策略，创建代理对象，对获取原型对象的方法进行代理，每次返回新的
+		 */
 		// Prepare method overrides.
 		// 验证及准备的方法 lookup-method  和replace-method
 		try {

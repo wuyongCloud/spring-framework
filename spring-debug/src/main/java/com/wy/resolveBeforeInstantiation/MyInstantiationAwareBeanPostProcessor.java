@@ -10,19 +10,20 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
-
+		System.out.println("postProcessBeforeInitialization 初始化前调用");
 		return InstantiationAwareBeanPostProcessor.super.postProcessBeforeInitialization(bean, beanName);
 	}
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+		System.out.println(" postProcessAfterInitialization 初始后前调用");
 		return InstantiationAwareBeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
 	}
 
 	@Override
 	public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
 		// 实例化之前
-		System.out.printf("");
+		System.out.println("postProcessBeforeInstantiation 实例化前调用");
 		/**
 		 * 可以做代理增强
 		 */
@@ -31,11 +32,13 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 
 	@Override
 	public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+		System.out.println("postProcessAfterInstantiation 实例化后调用");
 		return InstantiationAwareBeanPostProcessor.super.postProcessAfterInstantiation(bean, beanName);
 	}
 
 	@Override
 	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+		System.out.println("postProcessProperties 实例化后调用");
 		return InstantiationAwareBeanPostProcessor.super.postProcessProperties(pvs, bean, beanName);
 	}
 }
