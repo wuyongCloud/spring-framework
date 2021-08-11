@@ -3,7 +3,7 @@ package com.wy.resolveBeforeInstantiation;
 public class BeforeInstation {
 
 	public BeforeInstation() {
-		System.out.printf("BeforeInstation 实例化");
+		System.out.println("BeforeInstation 实例化");
 	}
 
 	public void doSomething(){
