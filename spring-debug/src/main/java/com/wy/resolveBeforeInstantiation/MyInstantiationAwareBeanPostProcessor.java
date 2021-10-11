@@ -11,7 +11,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
 		System.out.println("postProcessBeforeInitialization 初始化前调用");
-		return new BeforeInstation();
+		return null;
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 		/**
 		 * 可以做代理增强
 		 */
-		return InstantiationAwareBeanPostProcessor.super.postProcessBeforeInstantiation(beanClass, beanName);
+		return null;
 	}
 
 	@Override
