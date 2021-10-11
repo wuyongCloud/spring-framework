@@ -1209,11 +1209,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				}
 			}
 		}
+		// 使用缓存，autowireNecessary 标识是否使用有参构造器
 		if (resolved) {
 			if (autowireNecessary) {
+				// 有参构造实例化
 				return autowireConstructor(beanName, mbd, null, null);
 			}
 			else {
+				// 无参构造实例化
 				return instantiateBean(beanName, mbd);
 			}
 		}
@@ -1327,6 +1330,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 			else {
 				//			this.instantiationStrategy = new CglibSubclassingInstantiationStrategy();
+				// 获取创建实例的策略接口，创建对象
 				beanInstance = getInstantiationStrategy().instantiate(mbd, beanName, this);
 			}
 			BeanWrapper bw = new BeanWrapperImpl(beanInstance);
