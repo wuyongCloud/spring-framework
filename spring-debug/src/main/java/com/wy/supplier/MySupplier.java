@@ -2,6 +2,8 @@ package com.wy.supplier;
 
 public class MySupplier {
 
-//	public
+	public static UserSupplier createUser(){
+		return new UserSupplier("zhangsan");
+	}
 
 }

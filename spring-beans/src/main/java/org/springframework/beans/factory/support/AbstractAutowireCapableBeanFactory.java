@@ -1191,6 +1191,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			return instantiateUsingFactoryMethod(beanName, mbd, args);
 		}
 
+		/**
+		 * 一个类可能有多个构造器，spring 创建类的时候，要根据实际情况选择构造器
+		 * 在使用构造器创建类后，会把对应的构造器缓存下来，下次创建的时候，直接使用
+		 */
 		// Shortcut when re-creating the same bean...
 		boolean resolved = false;
 		boolean autowireNecessary = false;
@@ -1211,6 +1215,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 		}
 
+		// 选择一个构造器，从bean后置处理器中自动装配寻找构造方法，有且仅有一个有参构造或者有且仅有@Autowired注解构造
 		// Candidate constructors for autowiring?
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
