@@ -500,6 +500,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			mbdToUse.setBeanClass(resolvedClass);
 		}
 
+		/**
+		 * eg：单例对象引用原型对象，单例对象会被缓存，那么原型对象也就不会变化，这个的地方就设置下标识位，在对象实例化的时候，会根据这个标识位
+		 * 获取实例化策略，创建代理对象，对获取原型对象的方法进行代理，每次返回新的
+		 */
 		// Prepare method overrides.
 		// 验证及准备的方法 lookup-method  和replace-method
 		try {
@@ -604,6 +608,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Initialize the bean instance.
 		Object exposedObject = bean;
 		try {
+			// 初始化bean
 			populateBean(beanName, mbd, instanceWrapper);
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		}
@@ -1118,10 +1123,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (!Boolean.FALSE.equals(mbd.beforeInstantiationResolved)) {
 			// Make sure bean class is actually resolved at this point.
 			// 判断当前mbd是否是合成的，只有在实现aop的时候，Synthetic 的值为true，并且是实现了InstantiationAwareBeanPostProcessor 接口
+			// 这个地方可以用来提前创建Bean 或者在Bean创建之前做一些事情，
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 				Class<?> targetType = determineTargetType(beanName, mbd);
 				if (targetType != null) {
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
+					//如果Bean存在，可以在这里对bean做一些初始化的操作
 					if (bean != null) {
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
 					}
@@ -1206,11 +1213,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				}
 			}
 		}
+		// 使用缓存，autowireNecessary 标识是否使用有参构造器
 		if (resolved) {
 			if (autowireNecessary) {
+				// 有参构造实例化
 				return autowireConstructor(beanName, mbd, null, null);
 			}
 			else {
+				// 无参构造实例化
 				return instantiateBean(beanName, mbd);
 			}
 		}
@@ -1325,6 +1335,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 			else {
 				//			this.instantiationStrategy = new CglibSubclassingInstantiationStrategy();
+				// 获取创建实例的策略接口，创建对象
 				beanInstance = getInstantiationStrategy().instantiate(mbd, beanName, this);
 			}
 			BeanWrapper bw = new BeanWrapperImpl(beanInstance);

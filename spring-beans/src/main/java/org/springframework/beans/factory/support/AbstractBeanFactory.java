@@ -283,7 +283,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		else {
 			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
-			// 判断是否存在循环引用，如果时原型模式，就直接抛出异常
+			// 判断是否存在循环引用，如果是原型模式，就直接抛出异常
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
@@ -336,7 +336,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (requiredType != null) {
 					beanCreation.tag("beanType", requiredType::toString);
 				}
-				// 从xml中读取加载的BeanDefination 封装的是GenericBeanDefinition, 在这里做类型装欢，如果是子类Bean的话，会合并父类的相关属性
+				// 从xml中读取加载的BeanDefination 封装的是GenericBeanDefinition, 在这里做类型转换，如果是子类Bean的话，会合并父类的相关属性
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				checkMergedBeanDefinition(mbd, beanName, args);
 
@@ -347,6 +347,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				String[] dependsOn = mbd.getDependsOn();
 				if (dependsOn != null) {
 					for (String dep : dependsOn) {
+						// 循环依赖
 						if (isDependent(beanName, dep)) {
 							throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 									"Circular depends-on relationship between '" + beanName + "' and '" + dep + "'");
