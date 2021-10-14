@@ -1233,12 +1233,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 		}
 
-<<<<<<< HEAD
-		// Candidate constructors for autowiring? 从bean的后置处理器中寻找构造方法，有杰仅有一个有参构造 第一次是空
-=======
+
 		// 选择一个构造器，从bean后置处理器中自动装配寻找构造方法，有且仅有一个有参构造或者有且仅有@Autowired注解构造
 		// Candidate constructors for autowiring?
->>>>>>> 2e9815d77d556b99df0d8dbe3c579917e4e0cc23
 		Constructor<?>[] ctors = determineConstructorsFromBeanPostProcessors(beanClass, beanName);
 		if (ctors != null || mbd.getResolvedAutowireMode() == AUTOWIRE_CONSTRUCTOR ||
 				mbd.hasConstructorArgumentValues() || !ObjectUtils.isEmpty(args)) {
