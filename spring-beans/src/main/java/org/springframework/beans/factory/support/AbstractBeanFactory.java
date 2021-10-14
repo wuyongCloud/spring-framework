@@ -1855,8 +1855,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return {@code true} if actually removed, {@code false} otherwise
 	 */
 	protected boolean removeSingletonIfCreatedForTypeCheckOnly(String beanName) {
+		// 如果已经创建的Bean名称中没有该beanName对应对象
 		if (!this.alreadyCreated.contains(beanName)) {
+			//1.从该工厂单例缓存中删除具有给定名称的Bean。如果创建失败，则能够清理饿汉式注册 的单例
+			//2.FactoryBeanRegistrySupport重写以清除FactoryBean对象缓存
+			// 3.AbstractAutowireCapableBeanFactory重写 以清除FactoryBean对象缓存
 			removeSingleton(beanName);
+			// 有删除的时候，返回true
 			return true;
 		}
 		else {
@@ -1986,11 +1991,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @see #registerDependentBean
 	 */
 	protected void registerDisposableBeanIfNecessary(String beanName, Object bean, RootBeanDefinition mbd) {
+		// 如果存在安全容器
 		AccessControlContext acc = (System.getSecurityManager() != null ? getAccessControlContext() : null);
+		// Bean 作用域非prototype，切关闭时需要被销毁
 		if (!mbd.isPrototype() && requiresDestruction(bean, mbd)) {
+			// bean 是单例的
 			if (mbd.isSingleton()) {
 				// Register a DisposableBean implementation that performs all destruction
 				// work for the given bean: DestructionAwareBeanPostProcessors,
+				// 注册一个一次性的bean来执行给定bean的销毁工作，DestructionAwareBeanPostProcessors 一次性bean接口，
 				// DisposableBean interface, custom destroy method.
 				registerDisposableBean(beanName, new DisposableBeanAdapter(
 						bean, beanName, mbd, getBeanPostProcessorCache().destructionAware, acc));
@@ -1998,9 +2007,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 			else {
 				// A bean with a custom scope...
 				Scope scope = this.scopes.get(mbd.getScope());
+				// 有自己的作用域的bean
 				if (scope == null) {
 					throw new IllegalStateException("No Scope registered for scope name '" + mbd.getScope() + "'");
 				}
+				// 注册一个回调函数，
 				scope.registerDestructionCallback(beanName, new DisposableBeanAdapter(
 						bean, beanName, mbd, getBeanPostProcessorCache().destructionAware, acc));
 			}
