@@ -81,6 +81,8 @@ import org.springframework.util.StringValueResolver;
  * annotations are supported in many Java EE 5 technologies (e.g. JSF 1.2),
  * as well as in Java 6's JAX-WS.
  *
+ * 处理 PostConstruct 和 PreDestroy 初始化方法，和销毁方法
+ *
  * <p>This post-processor includes support for the {@link javax.annotation.PostConstruct}
  * and {@link javax.annotation.PreDestroy} annotations - as init annotation
  * and destroy annotation, respectively - through inheriting from
@@ -189,6 +191,7 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 
 
 	/**
+	 *
 	 * Create a new CommonAnnotationBeanPostProcessor,
 	 * with the init and destroy annotation types set to
 	 * {@link javax.annotation.PostConstruct} and {@link javax.annotation.PreDestroy},
@@ -196,7 +199,7 @@ public class CommonAnnotationBeanPostProcessor extends InitDestroyAnnotationBean
 	 */
 	public CommonAnnotationBeanPostProcessor() {
 		setOrder(Ordered.LOWEST_PRECEDENCE - 3);
-		setInitAnnotationType(PostConstruct.class);
+		setInitAnnotationType(PostConstruct.class);// 这两个注解在java11 已经被删除了，除非主动引入包，推荐 InitializingBean 或者@Bean(initMethod="") 代替实现
 		setDestroyAnnotationType(PreDestroy.class);
 		ignoreResourceType("javax.xml.ws.WebServiceContext");
 	}

@@ -1,6 +1,7 @@
 package com.wy.postConstrut;
 
 import lombok.Data;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * @author yong.wu
@@ -9,7 +10,7 @@ import lombok.Data;
  * @date 2021/10/14 10:55
  */
 @Data
-public class Person {
+public class Person implements InitializingBean {
 
 	private Integer id;
 
@@ -20,4 +21,8 @@ public class Person {
 	}
 
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("在bean初始化时执行 在beanPostProcessor PostProcessorsBeforeInitialization 之后；在PostProcessorsAfterInitialization 之前执行");
+	}
 }

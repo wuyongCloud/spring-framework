@@ -14,6 +14,7 @@ public class AutoByName {
 		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("autowireByName.xml");
 		ServiceB serviceB = (ServiceB)classPathXmlApplicationContext.getBean("serviceB");
 		System.out.println(serviceB.getServiceA());
+		classPathXmlApplicationContext.close();
 
 	}
 }

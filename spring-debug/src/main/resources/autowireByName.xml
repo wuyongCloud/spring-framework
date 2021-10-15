@@ -6,7 +6,7 @@
 <!--	<bean name="serviceAimpl" class="com.wy.autowireByName.ServiceAimpl"></bean>-->
 <!--	<bean name="serviceA1impl" class="com.wy.autowireByName.ServiceA1impl"></bean>-->
 
-	<bean class="com.wy.autowireByName.ServiceB" name="serviceB" init-method="init">
+	<bean class="com.wy.autowireByName.ServiceB" name="serviceB" init-method="init" destroy-method="xiaohui">
 <!--		<property name="serviceA" ref="serviceAimpl"></property>-->
 	</bean>
 </beans>

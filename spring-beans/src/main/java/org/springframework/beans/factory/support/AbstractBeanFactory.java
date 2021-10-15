@@ -1320,6 +1320,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		bw.setConversionService(getConversionService());
 		/**
 		 * 自定义属性编辑器，在BFPP 设置，在populateBean完成属性的设置
+		 * 使用场景，可以完成配置文件中的复杂字符串，转换为一个Java类。设置到wapper里
 		 */
 		registerCustomEditors(bw);
 	}

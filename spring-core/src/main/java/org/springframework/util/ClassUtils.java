@@ -1283,6 +1283,7 @@ public abstract class ClassUtils {
 	}
 
 	/**
+	 * 尝试从自身或者父类中获取接口方法
 	 * Determine a corresponding interface method for the given method handle, if possible.
 	 * <p>This is particularly useful for arriving at a public exported type on Jigsaw
 	 * which can be reflectively invoked without an illegal access warning.

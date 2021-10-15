@@ -570,7 +570,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			instanceWrapper = this.factoryBeanInstanceCache.remove(beanName);
 		}
 		if (instanceWrapper == null) {
-			// 创建bean
+			// 创建bean，包装成wapper,
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
 		}
 		Object bean = instanceWrapper.getWrappedInstance();
@@ -583,6 +583,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {
+					//Bean中也会有一些注解，注入其他Bean依赖，就是在这里完成解析（一些注解的扫描）
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
 				}
 				catch (Throwable ex) {
@@ -1343,7 +1344,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 						getAccessControlContext());
 			}
 			else {
-				//			this.instantiationStrategy = new CglibSubclassingInstantiationStrategy();
+				//this.instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 				// 获取创建实例的策略接口，创建对象
 				beanInstance = getInstantiationStrategy().instantiate(mbd, beanName, this);
 			}
@@ -1833,10 +1834,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
+			// 初始化之前调用
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
 		try {
+			/**
+			 * 判断是否是InitializingBean
+			 */
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
 		catch (Throwable ex) {
@@ -1909,6 +1914,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (StringUtils.hasLength(initMethodName) &&
 					!(isInitializingBean && "afterPropertiesSet".equals(initMethodName)) &&
 					!mbd.isExternallyManagedInitMethod(initMethodName)) {
+				// xml 里init执行步骤
 				invokeCustomInitMethod(beanName, bean, mbd);
 			}
 		}

@@ -75,6 +75,9 @@ import org.springframework.util.StringUtils;
  * by default, Spring's {@link Autowired @Autowired} and {@link Value @Value}
  * annotations.
  *
+ *
+ * Autowired 和Value 注解
+ *
  * <p>Also supports JSR-330's {@link javax.inject.Inject @Inject} annotation,
  * if available, as a direct alternative to Spring's own {@code @Autowired}.
  *
