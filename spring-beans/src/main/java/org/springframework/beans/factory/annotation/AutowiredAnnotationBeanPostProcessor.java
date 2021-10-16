@@ -253,6 +253,17 @@ public class AutowiredAnnotationBeanPostProcessor implements SmartInstantiationA
 		this.injectionMetadataCache.remove(beanName);
 	}
 
+	/**
+	 * 获取构造器，一般是开启的注解扫描才会执行到，autowire 注解可以构造器上，这个地方会构造器上的检查和寻找
+	 * 1、如果有多个Autowire required为true 立马报错
+	 * 2、如果只有一个Autowire required为false，没有默认构造方法，会报警告
+	 * 3、如果没有Autowire注解，定义了两个及以上有参构造，没有无参构造，且不是通过xml配置文件进行加载，使用@Component 进行加载 就会报错
+	 * 其他情况都可以，但是以有Autowire 的构造方法优先，然后才是默认构造方法
+	 * @param beanClass the raw class of the bean (never {@code null})
+	 * @param beanName the name of the bean
+	 * @return
+	 * @throws BeanCreationException
+	 */
 	@Override
 	@Nullable
 	public Constructor<?>[] determineCandidateConstructors(Class<?> beanClass, final String beanName)

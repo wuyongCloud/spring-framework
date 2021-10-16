@@ -583,6 +583,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {
+					/**
+					 * 例如：一些Bean生命手气方法的获取，并注册到Bdf中
+					 */
 					applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);
 				}
 				catch (Throwable ex) {
@@ -1338,6 +1341,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				// 获取创建实例的策略接口，创建对象
 				beanInstance = getInstantiationStrategy().instantiate(mbd, beanName, this);
 			}
+			/**
+			 * 注意体会 BeanWrapperImpl 看下它实现的接口，和构造方法
+			 * 包装类，完成对属性的一些处理，
+			 */
 			BeanWrapper bw = new BeanWrapperImpl(beanInstance);
 			//自定义属性编辑器，在此处生效
 			initBeanWrapper(bw);
