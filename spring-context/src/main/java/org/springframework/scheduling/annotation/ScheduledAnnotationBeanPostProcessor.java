@@ -213,6 +213,9 @@ public class ScheduledAnnotationBeanPostProcessor
 	}
 
 
+	/**
+	 * 所有的Bean都被实例化之后执行的方法
+	 */
 	@Override
 	public void afterSingletonsInstantiated() {
 		// Remove resolved singleton classes from cache

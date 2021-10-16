@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--	<bean name="serviceAimpl" class="com.wy.autowireByName.ServiceAimpl"></bean>-->
+<!--	<bean name="serviceA1impl" class="com.wy.autowireByName.ServiceA1impl"></bean>-->
+
+	<bean class="com.wy.autowireByName.ServiceB" name="serviceB" init-method="init" destroy-method="xiaohui">
+<!--		<property name="serviceA" ref="serviceAimpl"></property>-->
+	</bean>
+</beans>
