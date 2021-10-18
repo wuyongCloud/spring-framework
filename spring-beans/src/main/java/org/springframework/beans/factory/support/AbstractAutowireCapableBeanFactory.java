@@ -557,7 +557,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// spring 会配置aop,需要生成具体的代理对象
 		// 1、生成代理对象之前，要不要生成普通对象  要
 		// 2、我们能都确定什么时候调用具体的对象，什么时候调用代理对象，？无论普通还是代理对象，不能确定
-		// 3、有没有可能，在spring中同时存在同一个beanName的普通对象和代理对象？ 如果有的话，调用的时候，到底获取哪个？应该分块存储，分层获取，代理对象缓存（半成品对象）。加上成品缓存和半成品对象，就是三级缓存
+		// 3、有没有可能，在spring中同时存在同一个beanName的普通对象和代理对象？ 如果有的话，调用的时候，到底获取哪个？应该分块存储，分层获取，生成代理对象的缓存（）。加上成品缓存和半成品对象，就是三级缓存
 		//
 		boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences &&
 				isSingletonCurrentlyInCreation(beanName));
