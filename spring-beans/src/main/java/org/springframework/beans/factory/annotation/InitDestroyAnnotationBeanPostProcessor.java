@@ -147,8 +147,10 @@ public class InitDestroyAnnotationBeanPostProcessor
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
 		// 调用方法获取生命周期元数据并保存
+		// @PostConstruct
+		// @PreDestory
 		LifecycleMetadata metadata = findLifecycleMetadata(beanType);
-		// 验证相关方法
+		// 验证相关方法,将获取到的注解标准的方法，注入到bdf里
 		metadata.checkConfigMembers(beanDefinition);
 	}
 
