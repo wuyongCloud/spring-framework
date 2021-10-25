@@ -6,7 +6,7 @@ public class PolulatebeanTest {
 
 
 	public static void main(String[] args) {
-		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("populatebean.xml");
-		System.out.printf("111");
+		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("populateBean.xml");
+		ac.close();
 	}
 }

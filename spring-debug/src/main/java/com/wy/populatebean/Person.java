@@ -1,13 +1,12 @@
 package com.wy.populatebean;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.*;
 
 public class Person {
-	private  int id;
-	private String anme="wuyong";
+	private int id;
+	private String name;
 	private int age;
 	private String gender;
 	private Address address;
@@ -17,6 +16,30 @@ public class Person {
 	private Map<String,Object> maps;
 	private Properties properties;
 
+	public Person(int id, String name, int age, String gender) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		System.out.println("有参构造器");
+	}
+
+	public Person(int id, String name, int age) {
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		System.out.println("Age");
+	}
+
+	public Person(int id, String name, String gender) {
+		this.id = id;
+		this.name = name;
+		this.gender = gender;
+		System.out.println("gender");
+	}
+
+	public Person() {
+	}
 
 	public int getId() {
 		return id;
@@ -26,12 +49,12 @@ public class Person {
 		this.id = id;
 	}
 
-	public String getAnme() {
-		return anme;
+	public String getName() {
+		return name;
 	}
 
-	public void setAnme(String anme) {
-		this.anme = anme;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getAge() {
@@ -58,28 +81,12 @@ public class Person {
 		this.address = address;
 	}
 
-	public String[] getHobbies() {
-		return hobbies;
-	}
-
-	public void setHobbies(String[] hobbies) {
-		this.hobbies = hobbies;
-	}
-
 	public List<Book> getBooks() {
 		return books;
 	}
 
 	public void setBooks(List<Book> books) {
 		this.books = books;
-	}
-
-	public Set<Integer> getSets() {
-		return sets;
-	}
-
-	public void setSets(Set<Integer> sets) {
-		this.sets = sets;
 	}
 
 	public Map<String, Object> getMaps() {
@@ -96,5 +103,46 @@ public class Person {
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
+	}
+
+	public String[] getHobbies() {
+		return hobbies;
+	}
+
+	public void setHobbies(String[] hobbies) {
+		this.hobbies = hobbies;
+	}
+
+	public Set<Integer> getSets() {
+		return sets;
+	}
+
+	public void setSets(Set<Integer> sets) {
+		this.sets = sets;
+	}
+
+	@PostConstruct
+	public void init(){
+		System.out.println("init---person");
+	}
+
+	@PreDestroy
+	public void destroy(){
+		System.out.println("destroy---person");
+	}
+	@Override
+	public String toString() {
+		return "Person{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", age=" + age +
+				", gender='" + gender + '\'' +
+				", address=" + address +
+				", hobbies=" + Arrays.toString(hobbies) +
+				", books=" + books +
+				", sets=" + sets +
+				", maps=" + maps +
+				", properties=" + properties +
+				'}';
 	}
 }
