@@ -1,6 +1,11 @@
 package com.wy.populatebean;
 
-public class Address {
+import org.springframework.beans.factory.InitializingBean;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+public class Address implements InitializingBean {
 
 	private String province;
 	private String city;
@@ -40,10 +45,11 @@ public class Address {
 		this.town = town;
 	}
 
+	@PostConstruct
 	public void init(){
 		System.out.println("对象被初始化");
 	}
-
+	@PreDestroy
 	public void destory(){
 		System.out.println("对象被销毁");
 	}
@@ -55,5 +61,11 @@ public class Address {
 				", city='" + city + '\'' +
 				", town='" + town + '\'' +
 				'}';
+	}
+
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println(1111);
 	}
 }
