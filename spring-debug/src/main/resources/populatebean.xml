@@ -81,7 +81,7 @@
 		<entry key="key1" value="value1"></entry>
 		<entry key="key2" value-ref="book2"></entry>
 		<entry key="key03">
-			<bean class="com.mashibing.populateBean.Book">
+			<bean class="com.wy.populatebean.Book">
 				<property name="name" value="西游记" ></property>
 				<property name="author" value="吴承恩" ></property>
 				<property name="price" value="100" ></property>
