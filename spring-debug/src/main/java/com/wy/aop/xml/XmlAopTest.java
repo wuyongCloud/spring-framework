@@ -1,10 +1,14 @@
 package com.wy.aop.xml;
 
 import org.springframework.cglib.core.DebuggingClassWriter;
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Properties;
 
 /**
@@ -15,6 +19,11 @@ import java.util.Properties;
  */
 public class XmlAopTest {
 	public static void main(String[] args) throws Exception {
+		testAop();
+//		testCglib();
+	}
+
+	public static void testAop()throws Exception{
 		saveGeneratedCGlibProxyFiles(System.getProperty("user.dir")+"/proxy");
 		ApplicationContext ac = new ClassPathXmlApplicationContext("aop.xml");
 		MyCalculator bean = ac.getBean(MyCalculator.class);
@@ -31,4 +40,26 @@ public class XmlAopTest {
 		System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, dir);//dir为保存文件路径
 		props.put("net.sf.cglib.core.DebuggingClassWriter.traceEnabled", "true");
 	}
+
+
+	public static void testCglib() throws NoSuchMethodException {
+		Enhancer enhancer = new Enhancer();
+		enhancer.setSuperclass(MyCalculator.class);
+		enhancer.setCallback(new ProxyTest());
+		MyCalculator myCalculator1 = (MyCalculator) enhancer.create();
+		myCalculator1.add(1,1);
+
+	}
+
+	static class ProxyTest implements MethodInterceptor{
+
+		@Override
+		public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+			System.out.println("before");
+			Object invoke = methodProxy.invokeSuper(o, objects);
+			System.out.println("after");
+			return invoke;
+		}
+	}
+
 }
