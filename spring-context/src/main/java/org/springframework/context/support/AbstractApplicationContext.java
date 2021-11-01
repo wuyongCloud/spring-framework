@@ -554,6 +554,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			// loadBeanDefinitions 这一步是很重要的，加载解析xml 配置文件 里面有两个很重要的方法 parseDefaultElement(常见的标签 bean import 标签)
+			// 和parseCustomElement（自定义标签 aop 以及一些第三方框架标签，例如dubbo）
+			// 创建DefaultListableBeanFactory bean工厂
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
