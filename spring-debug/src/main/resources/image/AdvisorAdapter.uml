@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.springframework.aop.framework.adapter.AdvisorAdapter</OriginalElement>
+  <nodes>
+    <node x="319.0" y="129.0">org.springframework.aop.framework.adapter.MethodBeforeAdviceAdapter</node>
+    <node x="957.0" y="129.0">org.springframework.aop.framework.adapter.ThrowsAdviceAdapter</node>
+    <node x="478.5" y="0.0">org.springframework.aop.framework.adapter.AdvisorAdapter</node>
+    <node x="638.0" y="129.0">org.springframework.aop.framework.adapter.AfterReturningAdviceAdapter</node>
+    <node x="0.0" y="129.0">org.springframework.aop.framework.adapter.SimpleBeforeAdviceAdapter</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.springframework.aop.framework.adapter.SimpleBeforeAdviceAdapter" target="org.springframework.aop.framework.adapter.AdvisorAdapter" relationship="REALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="149.5" y="104.0" />
+      <point x="628.0" y="104.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="org.springframework.aop.framework.adapter.MethodBeforeAdviceAdapter" target="org.springframework.aop.framework.adapter.AdvisorAdapter" relationship="REALIZATION">
+      <point x="-5.6843418860808015E-14" y="-39.5" />
+      <point x="468.49999999999994" y="104.0" />
+      <point x="628.0" y="104.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="org.springframework.aop.framework.adapter.AfterReturningAdviceAdapter" target="org.springframework.aop.framework.adapter.AdvisorAdapter" relationship="REALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="787.5" y="104.0" />
+      <point x="628.0" y="104.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+    <edge source="org.springframework.aop.framework.adapter.ThrowsAdviceAdapter" target="org.springframework.aop.framework.adapter.AdvisorAdapter" relationship="REALIZATION">
+      <point x="0.0" y="-39.5" />
+      <point x="1106.5" y="104.0" />
+      <point x="628.0" y="104.0" />
+      <point x="0.0" y="39.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="628.0" y="104.0" />
+  <SelectedNodes>
+    <node>org.springframework.aop.framework.adapter.AdvisorAdapter</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
