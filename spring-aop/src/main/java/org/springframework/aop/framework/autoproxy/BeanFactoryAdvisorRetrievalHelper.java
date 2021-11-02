@@ -79,6 +79,9 @@ public class BeanFactoryAdvisorRetrievalHelper {
 			return new ArrayList<>();
 		}
 
+		/**
+		 * 这一步，会实例化 advicor 对象
+		 */
 		List<Advisor> advisors = new ArrayList<>();
 		for (String name : advisorNames) {
 			// 这个方法默认是true,没有具体的实现，hook钩子方法

@@ -252,6 +252,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 				return null;
 			}
 			//判断类是否可以代理，不可以代理放入缓存-
+			// shouldSkip 会遭到所有的Advisor
 			// 是否是内部类
 			// 是否应该跳过
 			if (isInfrastructureClass(beanClass) || shouldSkip(beanClass, beanName)) {
