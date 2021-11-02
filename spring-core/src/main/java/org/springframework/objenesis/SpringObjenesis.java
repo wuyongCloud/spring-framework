@@ -26,6 +26,7 @@ import org.springframework.util.ConcurrentReferenceHashMap;
  * Spring-specific variant of {@link ObjenesisStd} / {@link ObjenesisBase},
  * providing a cache based on {@code Class} keys instead of class names,
  * and allowing for selective use of the cache.
+ * 绕过newInstance()的方式 生成对象，因为构造可能是有参的；构造里有有害逻辑，或则抛出异常。一般在aop框架中使用的较多
  *
  * @author Juergen Hoeller
  * @since 4.2

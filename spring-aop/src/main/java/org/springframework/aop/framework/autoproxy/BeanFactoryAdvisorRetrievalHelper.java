@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
 /**
  * Helper for retrieving standard Spring Advisors from a BeanFactory,
  * for use with auto-proxying.
- *
+ * 工具类，从容器中获取Advisor 触发相应的Bean创建流程
  * @author Juergen Hoeller
  * @since 2.0.2
  * @see AbstractAdvisorAutoProxyCreator
