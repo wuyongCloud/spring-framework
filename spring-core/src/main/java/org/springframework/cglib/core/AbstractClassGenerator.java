@@ -300,7 +300,9 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 
 	protected Object create(Object key) {
 		try {
+			//类加载器
 			ClassLoader loader = getClassLoader();
+			// ClassLoaderData包含的是具体的业务逻辑处理过程，有连个function函数接口，一个是返回gen.key
 			Map<ClassLoader, ClassLoaderData> cache = CACHE;
 			ClassLoaderData data = cache.get(loader);
 			if (data == null) {

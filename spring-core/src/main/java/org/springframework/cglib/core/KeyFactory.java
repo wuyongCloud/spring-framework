@@ -166,13 +166,16 @@ abstract public class KeyFactory {
 
 	public static KeyFactory create(ClassLoader loader, Class keyInterface, KeyFactoryCustomizer customizer,
 			List<KeyFactoryCustomizer> next) {
+		//类的生成器
 		Generator gen = new Generator();
+		// 设置接口类型
 		gen.setInterface(keyInterface);
 		// SPRING PATCH BEGIN
 		gen.setContextClass(keyInterface);
 		// SPRING PATCH END
 
 		if (customizer != null) {
+			//添加定制器，
 			gen.addCustomizer(customizer);
 		}
 		if (next != null && !next.isEmpty()) {
@@ -233,6 +236,7 @@ abstract public class KeyFactory {
 		}
 
 		public KeyFactory create() {
+			// 设置了该生成器生成代理类的名字前缀，即我们的接口名Enhancer.enhancerKey
 			setNamePrefix(keyInterface.getName());
 			return (KeyFactory) super.create(keyInterface.getName());
 		}
