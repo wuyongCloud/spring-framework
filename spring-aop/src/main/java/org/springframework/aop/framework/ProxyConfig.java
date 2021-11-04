@@ -100,7 +100,7 @@ public class ProxyConfig implements Serializable {
 		this.opaque = opaque;
 	}
 
-	/**
+	/**是否允许创建代理类的时候被阻止
 	 * Return whether proxies created by this configuration should be
 	 * prevented from being cast to {@link Advised}.
 	 */

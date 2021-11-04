@@ -302,7 +302,7 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 		try {
 			//类加载器
 			ClassLoader loader = getClassLoader();
-			// ClassLoaderData包含的是具体的业务逻辑处理过程，有连个function函数接口，一个是返回gen.key
+			// ClassLoaderData包含的是具体的业务逻辑处理过程，有连个function函数接口，一个是返回gen.key,（返回名字）一个是get.create（创建代理类）
 			Map<ClassLoader, ClassLoaderData> cache = CACHE;
 			ClassLoaderData data = cache.get(loader);
 			if (data == null) {
@@ -320,6 +320,7 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 			this.key = key;
 			Object obj = data.get(this, getUseCache());
 			if (obj instanceof Class) {
+				// class 对象
 				return firstInstance((Class) obj);
 			}
 			return nextInstance(obj);
@@ -332,6 +333,7 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 		}
 	}
 
+	// 生成字节码
 	protected Class generate(ClassLoaderData data) {
 		Class gen;
 		Object save = CURRENT.get();

@@ -182,7 +182,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 			// 校验不能代理的类和方法，cglib 是使用继承的方式实现的  final static 不能代理
 			validateClassIfNecessary(proxySuperClass, classLoader);
 
-			// 创建 配置 Enhancer 代理类
+			// 创建 配置 Enhancer 代理类,
 			// Configure CGLIB Enhancer...
 			Enhancer enhancer = createEnhancer();
 			if (classLoader != null) {
@@ -192,7 +192,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 					enhancer.setUseCache(false);
 				}
 			}
-			// 代理类的父类 代理类实现的接口，回调方法
+			// 代理类的父类 代理类实现的接口，回调方法  advised 代理工厂，用来配置代理类
 			enhancer.setSuperclass(proxySuperClass);
 			enhancer.setInterfaces(AopProxyUtils.completeProxiedInterfaces(this.advised));
 			enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
@@ -292,7 +292,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 
 	private Callback[] getCallbacks(Class<?> rootClass) throws Exception {
 		// Parameters used for optimization choices...
-		// 是否暴露当前对象，使用ThreadLocal 模式，在当前上下文中能引用，常见的例子是事务，类的内部进行方法之前的调用
+		// 是否暴露当前对象，使用ThreadLocal 模式，在当前上下文中能引用，常见的例子是事务，类的内部进行方法之前的调用，是否走代理（事务）
 		boolean exposeProxy = this.advised.isExposeProxy();
 		boolean isFrozen = this.advised.isFrozen();
 		boolean isStatic = this.advised.getTargetSource().isStatic();
