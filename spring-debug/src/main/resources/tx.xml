@@ -23,7 +23,6 @@
 			</list>
 		</property>
 	</bean>
-
 	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="customEditors">
 			<map>
@@ -33,7 +32,4 @@
 		</property>
 	</bean>
 	<bean class="com.wy.day02.MySelfBeanDefinitionRegistryPostProcessor"></bean>
-
-
-
 </beans>
