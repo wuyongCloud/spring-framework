@@ -11,6 +11,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 public class CubeNamespaceHandler extends NamespaceHandlerSupport {
 	@Override
 	public void init() {
+		// 注册对应的标签解析器
 		registerBeanDefinitionParser("weimob",new CubeBeanDefinitionParser());
 	}
 }

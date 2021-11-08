@@ -33,6 +33,8 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
  * {@link org.springframework.aop.AfterReturningAdvice},
  * {@link org.springframework.aop.ThrowsAdvice}.
  *
+ *   提供适配器的crud
+ *
  * @author Rod Johnson
  * @author Rob Harrop
  * @author Juergen Hoeller

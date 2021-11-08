@@ -6,5 +6,6 @@
 	   http://www.springframework.org/schema/beans/spring-beans.xsd
 	   http://www.weimob.com/schema/weimob-beans
 	   http://www.weimob.com/schema/weimob-beans.xsd">
+	<!-- http://www.weimob.com/schema/weimob-beans 在spring.handlers配置了对应的命名空间拦截器  -->
 	<weimob:weimob id="weimobBean" name="微盟" address="宝山区、微盟大厦" phone="1010101010"></weimob:weimob>
 </beans>
