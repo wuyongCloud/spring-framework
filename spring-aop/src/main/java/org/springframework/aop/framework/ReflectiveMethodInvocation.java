@@ -155,6 +155,7 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	}
 
 
+	// 这里也算是一个递归思想，使用CglibMethodInvocation 把整个执行链串起来，把拦截器链执行一个来回
 	@Override
 	@Nullable
 	public Object proceed() throws Throwable {
