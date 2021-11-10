@@ -65,7 +65,7 @@ public abstract class AbstractSingleBeanDefinitionParser extends AbstractBeanDef
 		if (parentName != null) {
 			builder.getRawBeanDefinition().setParentName(parentName);
 		}
-		Class<?> beanClass = getBeanClass(element);
+		Class<?> beanClass = getBeanClass(element);// 获取标签需要 注入的类，例如 解析事务标签时，注入 TransactionInterceptor 它实现了MethodInterceptor接口
 		if (beanClass != null) {
 			builder.getRawBeanDefinition().setBeanClass(beanClass);
 		}

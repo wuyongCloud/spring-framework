@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<bean class="com.wy.entity.A">
-		<property name="id" value="wuyong"></property>
-		<property name="address" value="安徽_六安_金寨"></property>
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	<context:property-placeholder location="classpath:dbconfig.properties"></context:property-placeholder>
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="driverClassName" value="${jdbc.driverClassName}"></property>
 	</bean>
-	<bean class="com.wy.entity.B"></bean>
-
-	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-<!--		<property name="customEditors">-->
-<!--			<map>-->
-<!--				<entry key="com.wy.entity.Address" value="com.wy.day01.AddressEditor">-->
-<!--				</entry>-->
-<!--			</map>-->
-<!--		</property>-->
-<!--或者-->
-		<property name="propertyEditorRegistrars">
-			<list>
-				<bean class="com.wy.day01.AdressPropertyEditorRegistrar"/>
-			</list>
-		</property>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" >
+		<constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
 	</bean>
-	<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-		<property name="customEditors">
-			<map>
-				<entry key="com.wy.entity.Address" value="com.wy.day01.AddressEditor">
-				</entry>
-			</map>
-		</property>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	<bean class="com.wy.day02.MySelfBeanDefinitionRegistryPostProcessor"></bean>
+	<bean id="bookService" class="com.wy.tx.xml.service.BookService">
+		<property name="bookDao" ref="bookDao"></property>
+	</bean>
+	<bean id="bookDao" class="com.wy.tx.xml.dao.BookDao">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<aop:config>
+		<aop:pointcut id="txPoint" expression="execution(* com.wy.tx.xml.*.*.*(..))"/>
+		<aop:advisor advice-ref="myAdvice" pointcut-ref="txPoint"></aop:advisor>
+	</aop:config>
+	<tx:advice id="myAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="checkout" propagation="REQUIRED" />
+			<tx:method name="updateStock" propagation="REQUIRES_NEW" />
+		</tx:attributes>
+	</tx:advice>
 </beans>
